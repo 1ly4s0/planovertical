@@ -4,6 +4,11 @@ import { contain, cover } from './frame.js';
 export const suffix = 'planovertical';
 export const acceptsImage = false;
 export const acceptsAudio = false;
+export const looks = [
+    { framing: 'crop', zoom: 100, 'position-x': 50, 'position-y': 50 },
+    { framing: 'blur', zoom: 100, 'position-x': 50, 'position-y': 50, blur: 24 },
+    { framing: 'solid', zoom: 100, 'position-x': 50, 'position-y': 50 }
+];
 
 export function readSettings() {
     return {
@@ -55,7 +60,25 @@ function standby(drawing, width, height) {
     drawing.textAlign = 'start';
 }
 
-export function draw(drawing, media, { mode, zoom, x, y, blur }, { width, height }) {
+function safeArea(drawing, width, height) {
+    const left = Math.round(width * .077);
+    const top = Math.round(height * .11);
+    const right = Math.round(width * .81);
+    const bottom = Math.round(height * .77);
+    drawing.save();
+    drawing.fillStyle = '#0c241339';
+    drawing.fillRect(0, 0, width, top);
+    drawing.fillRect(0, bottom, width, height - bottom);
+    drawing.fillRect(0, top, left, bottom - top);
+    drawing.fillRect(right, top, width - right, bottom - top);
+    drawing.strokeStyle = '#c7ffb5d6';
+    drawing.lineWidth = 4;
+    drawing.setLineDash([16, 12]);
+    drawing.strokeRect(left, top, right - left, bottom - top);
+    drawing.restore();
+}
+
+export function draw(drawing, media, { mode, zoom, x, y, blur }, { width, height, guides }) {
     if (!media) {
         standby(drawing, width, height);
         return;
@@ -64,6 +87,7 @@ export function draw(drawing, media, { mode, zoom, x, y, blur }, { width, height
     drawing.fillRect(0, 0, width, height);
     if (mode === 'crop') {
         cover(drawing, media, width, height, zoom, x, y);
+        if (guides) safeArea(drawing, width, height);
         return;
     }
     if (mode === 'blur') {
@@ -72,4 +96,5 @@ export function draw(drawing, media, { mode, zoom, x, y, blur }, { width, height
         drawing.filter = 'none';
     }
     contain(drawing, media, width, height, zoom, x, y);
+    if (guides) safeArea(drawing, width, height);
 }

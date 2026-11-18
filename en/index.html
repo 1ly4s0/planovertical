@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Convert landscape video to vertical 9:16 online | PlanoVertical</title>
-    <meta name="description" content="Turn a landscape clip into a 9:16 video. Fill the background with blur or crop the frame around the part you want to keep.">
+    <meta name="description" content="Turn horizontal videos into 9:16 clips. Drag to reframe, use safe-area guides, trim and export MP4 with audio or WebM.">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#15131c">
     <link rel="canonical" href="https://1ly4s0.github.io/planovertical/en/">
@@ -17,7 +17,7 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://1ly4s0.github.io/planovertical/en/">
     <meta property="og:title" content="Convert landscape video to vertical 9:16 online | PlanoVertical">
-    <meta property="og:description" content="Turn a landscape clip into a 9:16 video. Fill the background with blur or crop the frame around the part you want to keep.">
+    <meta property="og:description" content="Turn horizontal videos into 9:16 clips. Drag to reframe, use safe-area guides, trim and export MP4 with audio or WebM.">
     <meta property="og:image" content="https://1ly4s0.github.io/planovertical/assets/share.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -27,7 +27,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="../assets/style.css">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "PlanoVertical", "url": "https://1ly4s0.github.io/planovertical/en/", "description": "Turn a landscape clip into a 9:16 video. Fill the background with blur or crop the frame around the part you want to keep.", "inLanguage": "en", "applicationCategory": "MultimediaApplication", "operatingSystem": "Any", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://1ly4s0.github.io/planovertical/assets/share.png"}</script>
+    <link rel="stylesheet" href="../assets/workbench.css">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "PlanoVertical", "url": "https://1ly4s0.github.io/planovertical/en/", "description": "Turn horizontal videos into 9:16 clips. Drag to reframe, use safe-area guides, trim and export MP4 with audio or WebM.", "inLanguage": "en", "applicationCategory": "MultimediaApplication", "operatingSystem": "Any", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://1ly4s0.github.io/planovertical/assets/share.png"}</script>
     <script type="module" src="../assets/visual-studio.js"></script>
 </head>
 <body>
@@ -44,19 +45,25 @@
     <main>
         <section class="hero shell">
             <div class="intro">
-                <p class="tool-type">Video reframing</p>
-                <h1>Make it <em>vertical.</em></h1>
-                <p class="lede">Turn a landscape clip into a 9:16 video. Fill the background with blur or crop the frame around the part you want to keep.</p>
-                <p class="privacy"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 4v2"/></svg> Your file stays on your device.</p>
+                <p class="tool-type">Landscape to portrait video</p>
+                <h1>From wide <em>to tall.</em></h1>
+                <p class="lede">Drag the frame to keep your subject in view. Use the guides to leave room for Shorts and Reels controls, then trim the start or end before exporting.</p>
             </div>
             <section class="studio" id="studio" aria-labelledby="editor-title">
-                <div class="studio-title"><h2 id="editor-title">9:16 monitor</h2><span id="preview-label">Sample preview</span></div>
+                <div class="studio-preview">
+                <div class="studio-title"><h2 id="editor-title">9:16 frame</h2><div class="studio-head-actions"><span id="preview-label">Sample preview</span><button id="demo" type="button" class="demo-button">Try demo</button></div></div>
                 <div class="screen visual-screen"><canvas id="preview" aria-hidden="true"></canvas></div>
                 <div class="transport" id="transport" hidden>
                     <button id="listen" type="button" disabled>Play</button>
                     <input id="seek" type="range" min="0" max="1" value="0" step=".01" aria-label="Playback position" disabled>
                     <span id="elapsed">0:00</span>
                 </div>
+                <p class="preview-hint">Drag on the video to move the frame.</p>
+                <div class="preview-tools">
+                    <span>Processed on your device</span>
+                </div>
+                </div>
+                <div class="studio-controls">
                 <div class="file-picker">
                     <input id="file" type="file" accept="video/*,.mp4,.webm,.mov">
                     <label for="file">
@@ -67,38 +74,56 @@
                 </div>
                 <fieldset id="settings">
                     <legend>Settings</legend>
+                    <div class="look-presets"><button type="button" data-look="0" aria-pressed="false">Fill</button><button type="button" data-look="1" aria-pressed="false">Blur background</button><button type="button" data-look="2" aria-pressed="false">Fit whole shot</button></div>
                     <div class="settings-grid"><div class="field">
                         <label for="framing">Framing</label>
                         <select id="framing"><option value="blur">Blur</option><option value="crop">Crop</option><option value="solid">Dark background</option></select>
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="zoom">Zoom <output for="zoom">100%</output></label>
                         <input id="zoom" type="range" min="100" max="220" value="100" data-unit="%">
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="position-x">Horizontal position <output for="position-x">50%</output></label>
                         <input id="position-x" type="range" min="0" max="100" value="50" data-unit="%">
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="position-y">Vertical position <output for="position-y">50%</output></label>
                         <input id="position-y" type="range" min="0" max="100" value="50" data-unit="%">
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="blur">Background blur <output for="blur">24 px</output></label>
                         <input id="blur" type="range" min="0" max="42" value="24" data-unit=" px">
-                    </div></div>
+                    </div>
+                        <div class="field toggle-field">
+                            <label for="safe-area"><input type="checkbox" id="safe-area" checked> Safe-area guides</label>
+                        </div>
+                    </div>
                 </fieldset>
+                <fieldset id="trim" class="trim-panel" hidden>
+                    <legend>Trim video</legend>
+                    <div class="settings-grid">
+                        <div class="field"><label for="trim-in">Start (s)</label><input id="trim-in" type="number" min="0" step=".01" value="0"></div>
+                        <div class="field"><label for="trim-out">End (s)</label><input id="trim-out" type="number" min="0" step=".01" value="0"></div>
+                    </div>
+                </fieldset>
+                <div class="output-panel" id="export-format-row">
+                    <div class="field"><label for="export-format">Video format</label><select id="export-format"><option value="mp4">MP4 · H.264 / AAC</option><option value="webm">WebM · VP8 / Opus</option></select></div>
+                    <p>The first MP4 export may download the encoder. Your video is converted on this device.</p>
+                </div>
                 <div class="action-row"><button id="cancel-render" type="button" hidden>Cancel</button>
                     <button id="save" class="save" type="button" disabled>Download</button></div>
+                <progress id="export-progress" max="100" aria-label="Export progress" hidden></progress>
                 <p id="status" class="status" role="status" aria-live="polite"></p>
+                </div>
             </section>
         </section>
         <section class="guide-band" id="guia">
             <div class="guide shell">
                 <h2>How to turn a landscape video vertical</h2>
                 <ol><li><h3>Open your video</h3><p>Choose a landscape clip you want to post as a Short, Reel or TikTok.</p></li>
-<li><h3>Reframe the shot</h3><p>Use Blur to keep the whole shot or Crop to fill the screen. Adjust zoom and position.</p></li>
-<li><h3>Download the vertical clip</h3><p>The export uses 720 × 1280 and keeps the original audio.</p></li></ol>
+<li><h3>Reframe the shot</h3><p>Use Blur to keep the whole shot or Crop to fill the screen. Drag the image to move the frame or adjust it with the zoom control.</p></li>
+<li><h3>Download the vertical clip</h3><p>Set the start and end if you want a shorter clip. The video exports at 720 × 1280 with the original audio.</p></li></ol>
             </div>
         </section>
         <section class="faqs shell" id="faq">
@@ -106,7 +131,7 @@
             <div><details><summary>How do blur and crop differ?</summary><p>Blur puts the original shot on top of a soft copy. Crop fills the canvas, which can leave parts of the shot outside the frame.</p></details>
 <details><summary>Can I move the frame?</summary><p>Yes. Adjust the horizontal and vertical position to keep the subject in frame.</p></details>
 <details><summary>Is my file uploaded?</summary><p>The file is processed in your browser. You don’t need an account.</p></details>
-<details><summary>How long does video export take?</summary><p>It records while the clip plays, so export usually takes about as long as the clip. Your browser determines whether it saves as MP4 or WebM.</p></details></div>
+<details><summary>How long does video export take?</summary><p>It records while the clip plays, so export usually takes about as long as the clip. Choose MP4 with AAC audio or WebM.</p></details></div>
         </section>
         <section class="other shell">
             <h2>More tools</h2>

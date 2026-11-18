@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Convertir vídeo horizontal a vertical 9:16 online | PlanoVertical</title>
-    <meta name="description" content="Pasa un vídeo horizontal a 9:16. Rellena el fondo con desenfoque o recorta el plano y encuadra lo que importa.">
+    <meta name="description" content="Convierte vídeos horizontales a 9:16. Arrastra el encuadre, usa guías, recorta y descarga un MP4 con audio o un WebM.">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#15131c">
     <link rel="canonical" href="https://1ly4s0.github.io/planovertical/">
@@ -17,7 +17,7 @@
     <meta property="og:locale" content="es_ES">
     <meta property="og:url" content="https://1ly4s0.github.io/planovertical/">
     <meta property="og:title" content="Convertir vídeo horizontal a vertical 9:16 online | PlanoVertical">
-    <meta property="og:description" content="Pasa un vídeo horizontal a 9:16. Rellena el fondo con desenfoque o recorta el plano y encuadra lo que importa.">
+    <meta property="og:description" content="Convierte vídeos horizontales a 9:16. Arrastra el encuadre, usa guías, recorta y descarga un MP4 con audio o un WebM.">
     <meta property="og:image" content="https://1ly4s0.github.io/planovertical/assets/share.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -27,7 +27,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="assets/style.css">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "PlanoVertical", "url": "https://1ly4s0.github.io/planovertical/", "description": "Pasa un vídeo horizontal a 9:16. Rellena el fondo con desenfoque o recorta el plano y encuadra lo que importa.", "inLanguage": "es", "applicationCategory": "MultimediaApplication", "operatingSystem": "Any", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://1ly4s0.github.io/planovertical/assets/share.png"}</script>
+    <link rel="stylesheet" href="assets/workbench.css">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "PlanoVertical", "url": "https://1ly4s0.github.io/planovertical/", "description": "Convierte vídeos horizontales a 9:16. Arrastra el encuadre, usa guías, recorta y descarga un MP4 con audio o un WebM.", "inLanguage": "es", "applicationCategory": "MultimediaApplication", "operatingSystem": "Any", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://1ly4s0.github.io/planovertical/assets/share.png"}</script>
     <script type="module" src="assets/visual-studio.js"></script>
 </head>
 <body>
@@ -44,19 +45,25 @@
     <main>
         <section class="hero shell">
             <div class="intro">
-                <p class="tool-type">Reencuadre de vídeo</p>
-                <h1>Ponlo en <em>vertical.</em></h1>
-                <p class="lede">Pasa un vídeo horizontal a 9:16. Rellena el fondo con desenfoque o recorta el plano y encuadra lo que importa.</p>
-                <p class="privacy"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 4v2"/></svg> Tu archivo se queda en tu dispositivo.</p>
+                <p class="tool-type">Reencuadre para vídeo vertical</p>
+                <h1>De horizontal <em>a vertical.</em></h1>
+                <p class="lede">Arrastra el plano para centrar el sujeto. Usa las guías para dejar sitio a los botones de Shorts o Reels y recorta el principio o el final antes de exportar.</p>
             </div>
             <section class="studio" id="studio" aria-labelledby="editor-title">
-                <div class="studio-title"><h2 id="editor-title">Monitor 9:16</h2><span id="preview-label">Vista de ejemplo</span></div>
+                <div class="studio-preview">
+                <div class="studio-title"><h2 id="editor-title">Encuadre 9:16</h2><div class="studio-head-actions"><span id="preview-label">Vista de ejemplo</span><button id="demo" type="button" class="demo-button">Probar demo</button></div></div>
                 <div class="screen visual-screen"><canvas id="preview" aria-hidden="true"></canvas></div>
                 <div class="transport" id="transport" hidden>
                     <button id="listen" type="button" disabled>Reproducir</button>
                     <input id="seek" type="range" min="0" max="1" value="0" step=".01" aria-label="Posición de reproducción" disabled>
                     <span id="elapsed">0:00</span>
                 </div>
+                <p class="preview-hint">Arrastra sobre el vídeo para mover el encuadre.</p>
+                <div class="preview-tools">
+                    <span>Procesamiento en tu dispositivo</span>
+                </div>
+                </div>
+                <div class="studio-controls">
                 <div class="file-picker">
                     <input id="file" type="file" accept="video/*,.mp4,.webm,.mov">
                     <label for="file">
@@ -67,38 +74,56 @@
                 </div>
                 <fieldset id="settings">
                     <legend>Ajustes</legend>
+                    <div class="look-presets"><button type="button" data-look="0" aria-pressed="false">Llenar</button><button type="button" data-look="1" aria-pressed="false">Fondo desenfocado</button><button type="button" data-look="2" aria-pressed="false">Plano completo</button></div>
                     <div class="settings-grid"><div class="field">
                         <label for="framing">Encuadre</label>
                         <select id="framing"><option value="blur">Desenfoque</option><option value="crop">Recorte</option><option value="solid">Fondo oscuro</option></select>
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="zoom">Zoom <output for="zoom">100%</output></label>
                         <input id="zoom" type="range" min="100" max="220" value="100" data-unit="%">
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="position-x">Posición horizontal <output for="position-x">50%</output></label>
                         <input id="position-x" type="range" min="0" max="100" value="50" data-unit="%">
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="position-y">Posición vertical <output for="position-y">50%</output></label>
                         <input id="position-y" type="range" min="0" max="100" value="50" data-unit="%">
                     </div>
-<div class="field">
+                        <div class="field">
                         <label for="blur">Desenfoque del fondo <output for="blur">24 px</output></label>
                         <input id="blur" type="range" min="0" max="42" value="24" data-unit=" px">
-                    </div></div>
+                    </div>
+                        <div class="field toggle-field">
+                            <label for="safe-area"><input type="checkbox" id="safe-area" checked> Guías de zona segura</label>
+                        </div>
+                    </div>
                 </fieldset>
+                <fieldset id="trim" class="trim-panel" hidden>
+                    <legend>Recortar vídeo</legend>
+                    <div class="settings-grid">
+                        <div class="field"><label for="trim-in">Inicio (s)</label><input id="trim-in" type="number" min="0" step=".01" value="0"></div>
+                        <div class="field"><label for="trim-out">Final (s)</label><input id="trim-out" type="number" min="0" step=".01" value="0"></div>
+                    </div>
+                </fieldset>
+                <div class="output-panel" id="export-format-row">
+                    <div class="field"><label for="export-format">Formato de vídeo</label><select id="export-format"><option value="mp4">MP4 · H.264 / AAC</option><option value="webm">WebM · VP8 / Opus</option></select></div>
+                    <p>La primera exportación en MP4 puede descargar el codificador. Tu vídeo se convierte en este dispositivo.</p>
+                </div>
                 <div class="action-row"><button id="cancel-render" type="button" hidden>Cancelar</button>
                     <button id="save" class="save" type="button" disabled>Descargar</button></div>
+                <progress id="export-progress" max="100" aria-label="Avance de la exportación" hidden></progress>
                 <p id="status" class="status" role="status" aria-live="polite"></p>
+                </div>
             </section>
         </section>
         <section class="guide-band" id="guia">
             <div class="guide shell">
                 <h2>Cómo convertir un vídeo horizontal a vertical</h2>
                 <ol><li><h3>Abre el vídeo</h3><p>Elige el clip horizontal que quieres preparar para Shorts, Reels o TikTok.</p></li>
-<li><h3>Reencuadra la imagen</h3><p>Usa Desenfoque para conservar el plano entero o Recorte para llenar la pantalla. Ajusta el zoom y la posición.</p></li>
-<li><h3>Descarga el clip vertical</h3><p>El resultado sale a 720 × 1280 con el audio de origen.</p></li></ol>
+<li><h3>Reencuadra la imagen</h3><p>Usa Desenfoque para conservar el plano entero o Recorte para llenar la pantalla. Arrastra la imagen o ajusta el zoom desde los controles.</p></li>
+<li><h3>Descarga el clip vertical</h3><p>Marca el inicio y el final si quieres recortar el clip. El vídeo se guarda a 720 × 1280 con el audio de origen.</p></li></ol>
             </div>
         </section>
         <section class="faqs shell" id="faq">
@@ -106,7 +131,7 @@
             <div><details><summary>¿Qué diferencia hay entre desenfoque y recorte?</summary><p>Con desenfoque, el plano original se coloca sobre una copia borrosa. Con recorte, el vídeo llena el lienzo y parte del encuadre puede quedar fuera.</p></details>
 <details><summary>¿Puedo mover el encuadre?</summary><p>Sí. Ajusta la posición horizontal y vertical para conservar al sujeto en pantalla.</p></details>
 <details><summary>¿Se sube mi archivo?</summary><p>El archivo se procesa en tu navegador. No necesitas una cuenta.</p></details>
-<details><summary>¿Cuánto tarda en exportar un vídeo?</summary><p>Se graba mientras se reproduce, así que suele tardar lo mismo que dura el clip. Según tu navegador, se guarda como MP4 o WebM.</p></details></div>
+<details><summary>¿Cuánto tarda en exportar un vídeo?</summary><p>Se graba mientras se reproduce, así que suele tardar lo mismo que dura el clip. Puedes elegir MP4 con audio AAC o WebM.</p></details></div>
         </section>
         <section class="other shell">
             <h2>Más herramientas</h2>
